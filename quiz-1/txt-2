@@ -1,0 +1,199 @@
+
+soray@aya MINGW64 ~
+$ psql -U postgres
+Password for user postgres:
+psql (14.2)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+postgres=# \l
+                                                   List of databases
+         Name          |  Owner   | Encoding |        Collate         |
+Ctype          |   Access privileges
+-----------------------+----------+----------+------------------------+---------
+---------------+-----------------------
+ eccomerce_soraya      | postgres | UTF8     | English_Indonesia.1252 | English_
+Indonesia.1252 |
+ ecommerce_development | postgres | UTF8     | English_Indonesia.1252 | English_
+Indonesia.1252 |
+ postgres              | postgres | UTF8     | English_Indonesia.1252 | English_
+Indonesia.1252 |
+ sequelize_db          | postgres | UTF8     | English_Indonesia.1252 | English_
+Indonesia.1252 |
+ template0             | postgres | UTF8     | English_Indonesia.1252 | English_
+Indonesia.1252 | =c/postgres          +
+                       |          |          |                        |
+               | postgres=CTc/postgres
+ template1             | postgres | UTF8     | English_Indonesia.1252 | English_
+Indonesia.1252 | =c/postgres          +
+                       |          |          |                        |
+               | postgres=CTc/postgres
+(6 rows)
+
+
+postgres=# create database book_store;
+CREATE DATABASE
+postgres=# \c book_store
+You are now connected to database "book_store" as user "postgres".
+book_store=# create table book_store (
+book_store(#     id bigserial primary key,
+book_store(#     name varchar(100),
+book_store(#     author varchar(50),
+book_store(#     price integer,
+book_store(#     is_publish boolean
+book_store(# );
+CREATE TABLE
+book_store=# \d book_store
+                                      Table "public.book_store"
+   Column   |          Type          | Collation | Nullable |                Def
+ault
+------------+------------------------+-----------+----------+-------------------
+---------------------
+ id         | bigint                 |           | not null | nextval('book_stor
+e_id_seq'::regclass)
+ name       | character varying(100) |           |          |
+ author     | character varying(50)  |           |          |
+ price      | integer                |           |          |
+ is_publish | boolean                |           |          |
+Indexes:
+    "book_store_pkey" PRIMARY KEY, btree (id)
+
+
+book_store=# \dt
+           List of relations
+ Schema |    Name    | Type  |  Owner
+--------+------------+-------+----------
+ public | book_store | table | postgres
+(1 row)
+
+
+book_store=# insert into book_store (
+book_store(#     name,
+book_store(#     author,
+book_store(#     price,
+book_store(#     is_publish
+book_store(# ) values (
+book_store(#     'The Intelligent Investor',
+book_store(#     'Benjamin Graham',
+book_store(#     175500,
+book_store(#     'true'
+book_store(# ), (
+book_store(#     'Segala Galanya Amyar',
+book_store(#     'Mark Manson',
+book_store(#     111000,
+book_store(#     'false'
+book_store(# ), (
+book_store(#     'Rich Dad Poor Dad',
+book_store(#     'Robert T. Kiyosaki',
+book_store(#     54400,
+book_store(#     'false'
+book_store(# ), (
+book_store(#     'Segala Galanya Amyar',
+book_store(#     'Mark Manson',
+book_store(#     111000,
+book_store(#     'false'
+book_store(# ), (
+book_store(#     'Novel Bulan',
+book_store(#     'Tere Liye',
+book_store(#     76000,
+book_store(#     'true'
+book_store(# ), (
+book_store(#     'You Do You',
+book_store(#     'Fellexandro Ruby',
+book_store(#     102400,
+book_store(#     'true'
+book_store(# ), (
+book_store(#     'Start with Why',
+book_store(#     'Simon Sinek',
+book_store(#     80000,
+book_store(#     'false'
+book_store(# );
+INSERT 0 7
+book_store=# select * from book_store;
+ id |           name           |       author       | price  | is_publish
+----+--------------------------+--------------------+--------+------------
+  1 | The Intelligent Investor | Benjamin Graham    | 175500 | t
+  2 | Segala Galanya Amyar     | Mark Manson        | 111000 | f
+  3 | Rich Dad Poor Dad        | Robert T. Kiyosaki |  54400 | f
+  4 | Segala Galanya Amyar     | Mark Manson        | 111000 | f
+  5 | Novel Bulan              | Tere Liye          |  76000 | t
+  6 | You Do You               | Fellexandro Ruby   | 102400 | t
+  7 | Start with Why           | Simon Sinek        |  80000 | f
+(7 rows)
+
+
+book_store=# select name, author, price from book_store;
+           name           |       author       | price
+--------------------------+--------------------+--------
+ The Intelligent Investor | Benjamin Graham    | 175500
+ Segala Galanya Amyar     | Mark Manson        | 111000
+ Rich Dad Poor Dad        | Robert T. Kiyosaki |  54400
+ Segala Galanya Amyar     | Mark Manson        | 111000
+ Novel Bulan              | Tere Liye          |  76000
+ You Do You               | Fellexandro Ruby   | 102400
+ Start with Why           | Simon Sinek        |  80000
+(7 rows)
+
+
+book_store=# select name, author, price from book_store where price >= 80000;
+           name           |      author      | price
+--------------------------+------------------+--------
+ The Intelligent Investor | Benjamin Graham  | 175500
+ Segala Galanya Amyar     | Mark Manson      | 111000
+ Segala Galanya Amyar     | Mark Manson      | 111000
+ You Do You               | Fellexandro Ruby | 102400
+ Start with Why           | Simon Sinek      |  80000
+(5 rows)
+
+
+book_store=# select * from book_store where name like 'Rich%';
+ id |       name        |       author       | price | is_publish
+----+-------------------+--------------------+-------+------------
+  3 | Rich Dad Poor Dad | Robert T. Kiyosaki | 54400 | f
+(1 row)
+
+
+book_store=# update book_store set price = 180000, is_publish = 'true' where author = 'Simon Sinek';
+UPDATE 1
+book_store=# select * from book_store;
+ id |           name           |       author       | price  | is_publish
+----+--------------------------+--------------------+--------+------------
+  1 | The Intelligent Investor | Benjamin Graham    | 175500 | t
+  2 | Segala Galanya Amyar     | Mark Manson        | 111000 | f
+  3 | Rich Dad Poor Dad        | Robert T. Kiyosaki |  54400 | f
+  4 | Segala Galanya Amyar     | Mark Manson        | 111000 | f
+  5 | Novel Bulan              | Tere Liye          |  76000 | t
+  6 | You Do You               | Fellexandro Ruby   | 102400 | t
+  7 | Start with Why           | Simon Sinek        | 180000 | t
+(7 rows)
+
+
+book_store=# delete from book_store where id = 5;
+DELETE 1
+book_store=# select * from book_store;
+ id |           name           |       author       | price  | is_publish
+----+--------------------------+--------------------+--------+------------
+  1 | The Intelligent Investor | Benjamin Graham    | 175500 | t
+  2 | Segala Galanya Amyar     | Mark Manson        | 111000 | f
+  3 | Rich Dad Poor Dad        | Robert T. Kiyosaki |  54400 | f
+  4 | Segala Galanya Amyar     | Mark Manson        | 111000 | f
+  6 | You Do You               | Fellexandro Ruby   | 102400 | t
+  7 | Start with Why           | Simon Sinek        | 180000 | t
+(6 rows)
+
+
+book_store=# select * from book_store order by price desc;
+ id |           name           |       author       | price  | is_publish
+----+--------------------------+--------------------+--------+------------
+  7 | Start with Why           | Simon Sinek        | 180000 | t
+  1 | The Intelligent Investor | Benjamin Graham    | 175500 | t
+  2 | Segala Galanya Amyar     | Mark Manson        | 111000 | f
+  4 | Segala Galanya Amyar     | Mark Manson        | 111000 | f
+  6 | You Do You               | Fellexandro Ruby   | 102400 | t
+  3 | Rich Dad Poor Dad        | Robert T. Kiyosaki |  54400 | f
+(6 rows)
+
+
+book_store=#
