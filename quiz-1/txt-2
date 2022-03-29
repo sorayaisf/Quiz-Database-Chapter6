@@ -8,31 +8,6 @@ WARNING: Console code page (437) differs from Windows code page (1252)
          page "Notes for Windows users" for details.
 Type "help" for help.
 
-postgres=# \l
-                                                   List of databases
-         Name          |  Owner   | Encoding |        Collate         |
-Ctype          |   Access privileges
------------------------+----------+----------+------------------------+---------
----------------+-----------------------
- eccomerce_soraya      | postgres | UTF8     | English_Indonesia.1252 | English_
-Indonesia.1252 |
- ecommerce_development | postgres | UTF8     | English_Indonesia.1252 | English_
-Indonesia.1252 |
- postgres              | postgres | UTF8     | English_Indonesia.1252 | English_
-Indonesia.1252 |
- sequelize_db          | postgres | UTF8     | English_Indonesia.1252 | English_
-Indonesia.1252 |
- template0             | postgres | UTF8     | English_Indonesia.1252 | English_
-Indonesia.1252 | =c/postgres          +
-                       |          |          |                        |
-               | postgres=CTc/postgres
- template1             | postgres | UTF8     | English_Indonesia.1252 | English_
-Indonesia.1252 | =c/postgres          +
-                       |          |          |                        |
-               | postgres=CTc/postgres
-(6 rows)
-
-
 postgres=# create database book_store;
 CREATE DATABASE
 postgres=# \c book_store
